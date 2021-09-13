@@ -149,9 +149,36 @@ fn main() {
     let b = s2.clone();
     print!("{} {} {} " , s , s1 , s2);
     
+    println!("--------- Enum and patterns  --------");
 
 
+    let trainer: Trainee = Trainee::Bacem(9u32);
+    let trainer1: Trainee = Trainee::Amal("Amal2".to_string());
+    let trainer2: Trainee = Trainee::Jawaher(true);
+
+    let t1 = &trainer1;
+
+    use Trainee::*;
+    let a = match t1  {
+        Bacem(9) =>  9u32  , 
+        Bacem(x) => *x , 
+        Amal(x) => x.len() as u32,
+        _ =>  { 
+                    println!(" I dont know");
+                    10u32
+        }
+    };
+
+    println!(" a= {}" , a);
+
+ //   println!("{}" , trainee);
 }
+
+pub enum Trainee {
+    Bacem(u32) ,
+    Amal(String),
+    Jawaher(bool),
+} 
 
 fn print_box(b: Box<u32>) -> Box<u32> {
     println!("{} ", b);
