@@ -120,23 +120,20 @@ fn main() {
     println!("--------- Memory Management Reference --------");
 
     let mut v3 = vec![10u32];
-    
     {
         let mut refv3 = &mut v3;
         refv3.push(11u32);
     }
-    
     println!("{} ", &v3[1]);
 
     println!("--------- Memory Management Slices --------");
 
-    let table = [ 1 , 2  , 3 , 4 , 5 , 6 ];
+    let table = [1, 2, 3, 4, 5, 6];
 
     let slice = &table[1..3];
 
     print_slice(slice);
     print_slice(&v3);
-
 
     println!("--------- String --------");
 
@@ -147,10 +144,8 @@ fn main() {
 
     let a = s2.clone();
     let b = s2.clone();
-    print!("{} {} {} " , s , s1 , s2);
-    
+    print!("{} {} {} ", s, s1, s2);
     println!("--------- Enum and patterns  --------");
-
 
     let trainer: Trainee = Trainee::Bacem(9u32);
     let trainer1: Trainee = Trainee::Amal("Amal2".to_string());
@@ -159,26 +154,39 @@ fn main() {
     let t1 = &trainer1;
 
     use Trainee::*;
-    let a = match t1  {
-        Bacem(9) =>  9u32  , 
-        Bacem(x) => *x , 
+    let a = match t1 {
+        Bacem(9) => 9u32,
+        Bacem(x) => *x,
         Amal(x) => x.len() as u32,
-        _ =>  { 
-                    println!(" I dont know");
-                    10u32
+        _ => {
+            println!(" I dont know");
+            10u32
         }
     };
 
-    println!(" a= {}" , a);
+    println!(" a= {}", a);
 
- //   println!("{}" , trainee);
+    println!("--------- Functions --------");
+
+    println!(" sum of integers : {}" , sum::<u32>(10u32 , 20u32));
+    println!(" sum of integers : {}" , sum(1.2f64 , 1.3f64));
+
+    //   println!("{}" , trainee);
 }
 
 pub enum Trainee {
-    Bacem(u32) ,
+    Bacem(u32),
     Amal(String),
     Jawaher(bool),
-} 
+}
+use std::ops::Add;
+
+
+fn sum<T : Add<Output = T>>(x1:  T, x2:  T) -> T {
+
+    let sum = x1 + x2;
+    sum 
+}
 
 fn print_box(b: Box<u32>) -> Box<u32> {
     println!("{} ", b);
@@ -187,6 +195,6 @@ fn print_box(b: Box<u32>) -> Box<u32> {
 
 fn print_slice(v: &[u32]) {
     for i in v {
-        print!("{} " , i);
+        print!("{} ", i);
     }
 }
