@@ -1,6 +1,6 @@
 
 
-mod halima;
+pub mod halima;
 
 
 #[cfg(test)]
