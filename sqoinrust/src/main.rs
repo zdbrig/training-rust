@@ -175,7 +175,7 @@ fn main() {
 
     println!(" ------------ Structs ------------- ");
 
-    let mut p: PorfolioAccount = PorfolioAccount::new("bacem porfolio ", 0.0, 0.0);
+    let mut p: PorfolioAccount<f64> = PorfolioAccount::new("bacem porfolio ", 0.0f64, 0.0f64);
 
     p.deposit_bitcoin(2.3);
 
@@ -183,7 +183,7 @@ fn main() {
 
     println!(" porfolio de Bacem est : {}", p);
 
-    let p: PorfolioAccount = PorfolioAccount::new("Amal porfolio ", 6.1, 8.3);
+    let p: PorfolioAccount<f64> = PorfolioAccount::new("Amal porfolio ", 6.1f64, 8.3f64);
 
     println!(" porfolio de Bacem est : {}", p);
 }
@@ -216,12 +216,13 @@ enum Currency {
     ETHEREUM,
 }
 
-struct PorfolioAccount {
+struct PorfolioAccount<T: Add<Output = T>> {
     name: String,
-    values: [(Currency, f64); 2],
+    values: [(Currency, T); 2],
 }
 
-impl Display for PorfolioAccount {
+impl Display for PorfolioAccount<f64>
+ {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         writeln!(
             f,
@@ -232,9 +233,9 @@ impl Display for PorfolioAccount {
     }
 }
 
-impl PorfolioAccount {
-    pub fn new(name: &str, bitcoin: f64, eth: f64) -> PorfolioAccount {
-        PorfolioAccount {
+impl PorfolioAccount<f64> {
+    pub fn new(name: &str, bitcoin: f64, eth: f64) -> PorfolioAccount<f64> {
+        PorfolioAccount::<f64>{
             name: name.to_string(),
             values: [(Currency::BITCOIN, bitcoin), (Currency::ETHEREUM, eth)],
         }
