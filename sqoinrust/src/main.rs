@@ -175,17 +175,36 @@ fn main() {
 
     println!(" ------------ Structs ------------- ");
 
-    let mut p: PorfolioAccount<f64> = PorfolioAccount::new("bacem porfolio ", 0.0f64, 0.0f64);
+    let mut portfo = PorfolioAccount::new("bacem porfolio ", 0.0f64, 0.0f64);
 
-    p.deposit_bitcoin(2.3);
+    let  p: &mut dyn Wallet = &mut portfo;
 
-    p.deposit_bitcoin(3.3);
+    p.deposit(2.3);
 
-    println!(" porfolio de Bacem est : {}", p);
+    p.deposit(3.3);
+
+    println!(" porfolio de Bacem est : {}", p.getBitcoin());
 
     let p: PorfolioAccount<f64> = PorfolioAccount::new("Amal porfolio ", 6.1f64, 8.3f64);
 
-    println!(" porfolio de Bacem est : {}", p);
+    println!(" porfolio de Bacem est : {}", p.getBitcoin());
+
+   /* let mut a = 12;
+
+    let b = 18;
+
+    if a < b {
+        println!("a is less than b");
+    } else {
+        println!(" a is greater than b");
+    }
+
+    while a < b {
+        print!("{} " , a);
+        a += 1;
+    } */
+
+    //panic!(" There is a problem here we have to exit");
 }
 
 pub enum Trainee {
@@ -241,9 +260,40 @@ impl PorfolioAccount<f64> {
         }
     }
 
-    pub fn deposit_bitcoin(&mut self , d: f64) {
+}
+
+
+
+pub struct Employee(String , String);
+
+pub struct Sqoin;
+
+
+pub trait Wallet {
+
+    fn deposit(&mut self , value: f64) -> ();
+
+    fn widhdraw(&mut self , value: f64) -> ();
+
+    fn getBitcoin(&self) -> f64;
+
+}
+
+impl Wallet for PorfolioAccount<f64> {
+    fn deposit(&mut self , value: f64) -> () {
         let mut old = self.values[0].1;
-        old += d;
+        old += value;
         self.values[0] = (Currency::BITCOIN, old);
     }
-}
+
+    fn widhdraw(&mut self , value: f64) -> () {
+        let mut old = self.values[0].1;
+        old -= value;
+        self.values[0] = (Currency::BITCOIN, old);
+    }
+
+    fn getBitcoin(&self) -> f64 {
+        self.values[0].1
+    }
+
+} 
