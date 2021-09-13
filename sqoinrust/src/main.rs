@@ -181,13 +181,13 @@ fn main() {
 
     p.deposit(2.3);
 
-    p.deposit(3.3);
+    p.deposit_multiple(&[ 1.0 ,2.0 ,3.0]);
 
-    println!(" porfolio de Bacem est : {}", p.getBitcoin());
+    println!(" porfolio de Bacem est : {}", p.get_bitcoin());
 
     let p: PorfolioAccount<f64> = PorfolioAccount::new("Amal porfolio ", 6.1f64, 8.3f64);
 
-    println!(" porfolio de Bacem est : {}", p.getBitcoin());
+    println!(" porfolio de Bacem est : {}", p.get_bitcoin());
 
    /* let mut a = 12;
 
@@ -273,9 +273,15 @@ pub trait Wallet {
 
     fn deposit(&mut self , value: f64) -> ();
 
+    fn deposit_multiple(&mut self , values: &[f64]) {
+        for v in values {
+            self.deposit(*v);
+        }
+    }
+
     fn widhdraw(&mut self , value: f64) -> ();
 
-    fn getBitcoin(&self) -> f64;
+    fn get_bitcoin(&self) -> f64;
 
 }
 
@@ -292,7 +298,7 @@ impl Wallet for PorfolioAccount<f64> {
         self.values[0] = (Currency::BITCOIN, old);
     }
 
-    fn getBitcoin(&self) -> f64 {
+    fn get_bitcoin(&self) -> f64 {
         self.values[0].1
     }
 
