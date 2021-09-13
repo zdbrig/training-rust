@@ -137,6 +137,20 @@ fn main() {
     print_slice(slice);
     print_slice(&v3);
 
+
+    println!("--------- String --------");
+
+    let s = r"b\acem";
+    let s1 = "b\\acem".to_string();
+    let mut s2 = String::new();
+    s2 += "bacem";
+
+    let a = s2.clone();
+    let b = s2.clone();
+    print!("{} {} {} " , s , s1 , s2);
+    
+
+
 }
 
 fn print_box(b: Box<u32>) -> Box<u32> {
