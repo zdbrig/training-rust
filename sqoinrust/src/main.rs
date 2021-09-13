@@ -75,7 +75,6 @@ fn main() {
     for i in 0..10 {
         print!(" {}", table[i]);
     }
-  
 
     println!("--------- Tuples --------");
 
@@ -96,10 +95,9 @@ fn main() {
     vec1.push(y);
 
     for i in vec1 {
-        print!(" {} " , i);
+        print!(" {} ", i);
     }
 
-   
     println!();
 
     println!("--------- Memory Management Variable --------");
@@ -108,19 +106,46 @@ fn main() {
 
     let m2 = m1;
 
-    println!(" {} {} " , m1 , m2);
+    println!(" {} {} ", m1, m2);
 
-    let mut b1 = Box::new( 10u32);
+    let mut b1 = Box::new(10u32);
 
     let b2 = b1;
-     b1 = Box::new( 11u32);
+    b1 = Box::new(11u32);
 
     print_box(b1);
     b1 = print_box(b2);
     print_box(b1);
+
+    println!("--------- Memory Management Reference --------");
+
+    let mut v3 = vec![10u32];
+    
+    {
+        let mut refv3 = &mut v3;
+        refv3.push(11u32);
+    }
+    
+    println!("{} ", &v3[1]);
+
+    println!("--------- Memory Management Slices --------");
+
+    let table = [ 1 , 2  , 3 , 4 , 5 , 6 ];
+
+    let slice = &table[1..3];
+
+    print_slice(slice);
+    print_slice(&v3);
+
 }
 
-fn print_box(b: Box<u32> ) -> Box<u32>  {
-    println!("{} " , b);
-     b
+fn print_box(b: Box<u32>) -> Box<u32> {
+    println!("{} ", b);
+    b
+}
+
+fn print_slice(v: &[u32]) {
+    for i in v {
+        print!("{} " , i);
+    }
 }
