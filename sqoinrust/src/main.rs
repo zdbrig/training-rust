@@ -1,23 +1,42 @@
 
-
-pub struct Sqoiner {
-    number: i32,
+mod sqoin_module {
+    pub mod sqoin_sub_module {
+    pub struct Sqoiner {
+        pub number: i32,
+    }
+    
+    
+    pub trait SqoinRules {
+        fn shownumber(sqoiner: & Sqoiner) ; 
+    }
+    
+    
+    pub fn print_sqoiner(sqoiner: &Sqoiner) -> ()
+     {
+         println!(" Printing Sqoin {}" , sqoiner.number);
+     }
+    }
 }
 
 
-pub trait SqoinRules {
-    fn shownumber(sqoiner: & Sqoiner) ; 
+mod karima {
+
+    pub fn say_hello() {
+        println!(" I am Karima");
+    }
 }
 
 
-pub fn print_sqoiner(sqoiner: &Sqoiner) -> ()
- {
-     println!(" Printing Sqoin {}" , sqoiner.number);
- }
-
+mod khouloud;
+mod jawaher;
 
 fn main() {
     
-    print_sqoiner(&Sqoiner{number: 10});
+    sqoin_module::sqoin_sub_module::print_sqoiner(&sqoin_module::sqoin_sub_module::Sqoiner{number: 10});
 
+    println!("-----------------");
+ 
+    karima::say_hello();
+    khouloud::say_hello();
+    jawaher::jawaherimpl::say_hello();
 }
