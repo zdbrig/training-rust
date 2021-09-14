@@ -82,14 +82,64 @@ fn main() {
 
     println!("************ scan *************");
 
-    let iter = rust_group.iter().scan(" Sqoin members are ".to_string(),
-        | s , item| {
+    let iter = rust_group
+        .iter()
+        .scan(" Sqoin members are ".to_string(), |s, item| {
             s.push_str(item);
             s.push_str(" ");
-             Some(s.clone())
-        }
-    );
+            Some(s.clone())
+        });
     for m1 in iter {
         println!("{}", m1);
     }
+
+    println!("************ take *************");
+
+    let iter = rust_group.iter().take(3);
+    for m1 in iter {
+        println!("{}", m1);
+    }
+
+    println!("************ take while *************");
+
+    let iter = rust_group.iter().take_while(|m| m.len() > 4);
+    for m1 in iter {
+        println!("{}", m1);
+    }
+
+    println!("************ skip *************");
+
+    let iter = rust_group.iter().skip(3);
+    for m1 in iter {
+        println!("{}", m1);
+    }
+
+    println!("************ skip while *************");
+
+    let iter = rust_group.iter().skip_while(|m| m.len() > 4);
+    for m1 in iter {
+        println!("{}", m1);
+    }
+
+    println!("************ peekable *************");
+
+    use std::iter::Peekable;
+    let mut x = rust_group.iter().peekable();
+
+    if let Some(r) = x.peek() {
+        println!("{}", r);
+    }
+    if let Some(r) = x.next() {
+        println!("{}", r);
+    }
+    if let Some(r) = x.peek() {
+        println!("{}", r);
+    }
+    if let Some(r) = x.peek() {
+        println!("{}", r);
+    }
+
+
+    println!("************ Fuse *************");
+
 }
