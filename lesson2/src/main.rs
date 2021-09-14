@@ -19,6 +19,7 @@ impl Wallet<u32, u32> for u32 {
 
 fn main() {
     let rust_group = vec!["Bacem", "Karima", "Amal", "Jawaher", "Halima", "Khouloud"];
+    let other_group = vec!["Ameni", "Emna", "Wafa", "Fedia", "Ameni", "Saif" ,  "Tawfik" ];
 
     /* for member in &rust_group {
         println!("{}" ,  member);
@@ -123,7 +124,6 @@ fn main() {
 
     println!("************ peekable *************");
 
-    use std::iter::Peekable;
     let mut x = rust_group.iter().peekable();
 
     if let Some(r) = x.peek() {
@@ -141,5 +141,87 @@ fn main() {
 
 
     println!("************ Fuse *************");
+
+    let mut iter = (&rust_group).into_iter().fuse();
+    
+    while let Some(v) = iter.next() {
+        println!("{}", v);
+    }
+
+    let x = iter.next();
+    if let Some(r) = x {
+        println!("{}", r);
+    } else {
+        println!("{}", "None");
+    }
+    let x = iter.next();
+    if let Some(r) = x {
+        println!("{}", r);
+    } else {
+        println!("{}", "None");
+    }
+
+    println!("************ Reverse *************");
+
+    let mut iter = (&rust_group).into_iter();
+    
+     
+    while let Some(v) = iter.next_back() {
+        println!("{}", v);
+    }
+    let mut iter = (&rust_group).into_iter().rev();
+    
+    println!("---------");
+     
+    while let Some(v) = iter.next() {
+        println!("{}", v);
+    }
+
+    use std::iter::Inspect;
+    println!("************ Inspect *************");
+
+    let mut iter = (&rust_group).into_iter();
+    "bacem".chars().inspect(|m| println!(" inspecting {}" , m)).flat_map(|c| c.to_uppercase())
+    .inspect(|m| panic!(" can not be here"));
+
+    println!("************ chain *************");
+
+    let mut chain  = rust_group.iter().chain(other_group.iter());
+    while let Some(v) = chain.next() {
+        println!("{}", v);
+    }
+
+    println!("************ enumerate *************");
+
+    for (i, m) in (&rust_group).into_iter().enumerate() {
+        println!("{} {}", i , m);
+    }
+
+    println!("************ zip *************");
+    
+    let mut chain  = rust_group.iter().zip(other_group.iter());
+    while let Some(v) = chain.next() {
+        println!("{} {}", v.0 , v.1 );
+    }
+
+    println!("************ by ref *************");
+
+    for i in (&rust_group).into_iter().by_ref() {
+        println!("{} ", i );
+    }
+    println!("************ cloned *************");
+
+    for i in (&rust_group).into_iter().cloned() {
+        println!("{} ", i );
+    }
+
+    println!("************ cycle *************");
+
+    for (i,j) in (&rust_group).into_iter().cycle().enumerate() {
+        println!("{} ", j );
+        if i > 10 {
+            break 
+        }
+    }
 
 }
