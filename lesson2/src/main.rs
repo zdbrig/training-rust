@@ -18,11 +18,26 @@ impl  Wallet<u32,u32> for u32 {
 }
 
 fn main() {
-    println!("Hello, world!");
+   
+    let rust_group = vec![ "Bacem" , "Karima" , "Amal" , "Jawaher" , "Halima" , "Khouloud"];
+    
+   /* for member in &rust_group {
+        println!("{}" ,  member);
+    }*/
 
-    let x = 10u32;
+    let mut iter = (&rust_group).into_iter();
+    
+    let value = iter.next();
+    let real_value = match value {
+        Some(v) => v,
+        None => ""
+    };
 
-    let mut y = x.show_wallet();
-    y = Wallet::show_wallet(&x);
-    println!("{} " , y);
+    println!("{}" , real_value);
+
+
+    while let Some(v) = iter.next() {
+        println!("{}" , v);
+    }
+    
 }
