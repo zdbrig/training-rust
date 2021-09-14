@@ -199,8 +199,8 @@ fn main() {
 
     println!("************ zip *************");
     
-    let mut chain  = rust_group.iter().zip(other_group.iter());
-    while let Some(v) = chain.next() {
+    let mut zip  = rust_group.iter().zip(other_group.iter());
+    while let Some(v) = zip.next() {
         println!("{} {}", v.0 , v.1 );
     }
 
@@ -226,7 +226,7 @@ fn main() {
 
     println!("************ consuming iterators *************");
 
-    let numbers:Vec<u32> = vec![ 1 , 2 , 5 , 7 , 10];
+    let mut numbers:Vec<u32> = vec![ 1 , 2 , 5 , 7 , 10];
 
     let  numbes_iter = (&numbers).into_iter();
     
@@ -255,5 +255,43 @@ fn main() {
     let mut numbes_iter = (&numbers).into_iter();
 
     println!(" position  de  7 = {}" , numbes_iter.position(|m| m > &5000u32 ).unwrap_or(0) );
+
+    let  numbes_iter = (&numbers).into_iter();
+
+    println!(" fold   = {}" , numbes_iter.fold(10, |x , y| x+y ) );
+    
+    let mut  numbes_iter = (&numbers).into_iter();
+
+    println!(" nth   = {}" , numbes_iter.nth(3 ).unwrap_or(&0u32) );
+
+    let mut  numbes_iter = (&numbers).into_iter();
+
+    println!(" last   = {}" , numbes_iter.last( ).unwrap_or(&0u32) );
+
+    let mut numbes_iter = (&numbers).into_iter();
+
+    println!(" position  de  7 = {}" , numbes_iter.find(|m| m > &&5u32 ).unwrap_or(&0u32) );
+
+    println!("************ Extend *************");
+
+    numbers.extend(0..5);
+
+    for i in &numbers {
+        println!("{} " , i);
+    }
+    println!("************ Partition *************");
+
+    let mut chain  = rust_group.iter().chain(other_group.iter());
+
+    let (p1,p2) : (Vec::<&str> ,Vec::<&str> )= chain.partition(|n| n.len() <= 4);
+
+    for i in p1 {
+        println!(" partition 1 {}" , i);
+    }
+
+    for i in p2 {
+        println!(" partition 2 {}" , i);
+    }
+
 
 }
