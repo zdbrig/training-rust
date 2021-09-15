@@ -2,9 +2,11 @@ use std::env;
 use std::fs;
 use std::fs::File;
 use std::io::prelude::*;
+use std::io::{BufReader,Lines,Split};
+
 fn main() {
     // --snip--
-    println!("------- Reading a file ");
+    println!("------- Reading a file--------- ");
     let filename = "/Users/karima/trainingrust/lesson5/poem.txt";
     println!("In file {}", filename);
 
@@ -47,17 +49,66 @@ fn main() {
     }
 
     println!("---------chain -----");
-    let  file1 = File::open("/Users/karima/trainingrust/lesson5/poem.txt").unwrap();
-    let  file2 = File::open("/Users/karima/trainingrust/lesson5/test.txt").unwrap();
-    let mut newfile=(&file1).chain(file2);
+    let file1 = File::open("/Users/karima/trainingrust/lesson5/poem.txt").unwrap();
+    let file2 = File::open("/Users/karima/trainingrust/lesson5/test.txt").unwrap();
+    let mut newfile = (&file1).chain(file2);
     let mut contents = String::new();
-    newfile.read_to_string(&mut contents).expect("Something went wrong reading the file");
+    newfile
+        .read_to_string(&mut contents)
+        .expect("Something went wrong reading the file");
 
     println!("new file :\n{}", contents);
     println!("---------take -----");
-    let  file1 = File::open("/Users/karima/trainingrust/lesson5/poem.txt").unwrap();
-   let mut reader= file1.take(70);
-   let mut contents = String::new();
-   reader.read_to_string(&mut contents).expect("Something went wrong reading the file");
-   println!("take :\n{}", contents);
+    let file1 = File::open("poem.txt").unwrap();
+    let mut reader = file1.take(70);
+    let mut contents = String::new();
+    reader
+        .read_to_string(&mut contents)
+        .expect("Something went wrong reading the file");
+    println!("take :\n{}", contents);
+
+    println!("------- Buffered Readers--------- ");
+    println!("------- reade line--------- ");
+    let file = File::open("poem.txt").unwrap();
+    let mut reader = BufReader::new(file);
+    let mut line = String::new();
+    let len = reader.read_line(&mut line);
+    println!(" ok {:?}", len);
+    println!("line is  {:?}", line);
+
+    println!("------- lines--------- ");
+
+    let len: Lines<BufReader<File>> = reader.lines();
+    for (i, j) in len.enumerate() {
+        println!("line {}:{}", i, j.unwrap());
+    }
+    println!("------- read unitl--------- ");
+    let file = File::open("poem.txt").unwrap();
+    let mut reader = BufReader::new(file);
+    let mut buf: Vec<u8> = vec![];
+    let r = reader.read_until(b'a', &mut buf);
+    println!("buf is  {:?}", buf);
+    match r {
+        Ok(v) => {
+            println!("{}", v);
+        }
+        Err(e) => {
+            println!("error :{}", e);
+        }
+    }
+    println!("------- split--------- ");
+    let r: Split::<BufReader::<File>>= reader.split(b'a');
+    for (i, j) in r.enumerate() {
+        match j {
+            Ok(v) => {
+                println!("{:?}", v);
+            }
+            Err(e) => {
+                println!("error :{}", e);
+            }
+        }
+    }
+  
+
+
 }
