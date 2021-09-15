@@ -1,3 +1,6 @@
+        use regex::Regex;
+        extern crate regex;
+
 fn main() {
     {
         let name: &str = "bacem";
@@ -134,6 +137,23 @@ fn main() {
         let sname2 = sname.clone();
         println!("value = {} , pointer = {:p} " , &sname2 , &sname2 );
 
+        
+        let pattern = Regex::new(r"^a+$").unwrap();
+
+        println!("{} {} {}" , pattern.is_match("a") , pattern.is_match("aaaa") ,
+        pattern.is_match("b"));
+
+        let names = r" Khouloud bacem Halima Jawaher Amal Karima ";
+
+        let pattern = Regex::new(r" [a-zA-Z]*a[a-zA-Z]* ").unwrap();
+        println!("{} " , pattern.is_match(names));
+
+        let captures = pattern.find_iter(names);
+
+       // println!("{}" , captures.get(0).unwrap().start());
+        for (i , j ) in captures.enumerate() {
+            println!(" {} -  {} " , i , j.as_str());
+        }
 
     }
 }
