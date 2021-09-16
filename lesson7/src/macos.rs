@@ -1,5 +1,7 @@
 
+#[derive(Clone , Copy)]
 pub struct MACOS;
+
 
 impl MACOS {
 

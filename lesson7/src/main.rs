@@ -1,4 +1,5 @@
 use crate::virtual_machine::VirtualMachine;
+use serde::{Serialize, Deserialize};
 
 mod data_center;
 pub mod virtual_machine;
@@ -15,7 +16,11 @@ fn main() {
     use linux::Linux;
     use macos::MACOS;
     let mut o:VirtualMachine::<MACOS> =   VmTrait::<MACOS>::new();
-    
+    print_virtual!(o);
+
+    let serialized = serde_json::to_string(& o).unwrap();
+    println!("##serialized = {}##", serialized);
+
     println!("{}" , o.info());
     o.start();
     println!("{}" , o.info());

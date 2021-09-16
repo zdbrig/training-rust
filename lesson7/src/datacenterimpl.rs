@@ -5,7 +5,7 @@ use crate::virtual_machine::VmState;
 use crate::vm_trait::VmTrait;
 use rand::Rng;
 
-impl VmTrait<Linux> for VirtualMachine<Linux> {
+impl VmTrait<Linux> for VirtualMachine<'static , Linux> {
 
     fn start(&mut self) {
         //  self.start_linux();
@@ -23,11 +23,12 @@ impl VmTrait<Linux> for VirtualMachine<Linux> {
         self.state = VmState::PAUSED;
     }
 
-    fn new() -> VirtualMachine<Linux> {
+    fn new() -> VirtualMachine<'static, Linux> {
         let mut rng = rand::thread_rng();
         let number: u32 = rng.gen();
+        let n : &'static str = "LINUX" ; //format!("LINUX_{}", number).as_str();
         VirtualMachine::<Linux>  {
-            name: format!("LINUX_{}", number),
+            name: n,
             state: VmState::STOPPED,
             resource_type: std::marker::PhantomData,
         }
@@ -43,7 +44,7 @@ impl VmTrait<Linux> for VirtualMachine<Linux> {
     }
 }
 
-impl VmTrait<MACOS> for VirtualMachine<MACOS> {
+impl VmTrait<MACOS> for VirtualMachine<'static, MACOS> {
 
     fn start(&mut self) {
         //  self.start_linux();
@@ -61,11 +62,13 @@ impl VmTrait<MACOS> for VirtualMachine<MACOS> {
         self.state = VmState::PAUSED;
     }
 
-    fn new() -> VirtualMachine<MACOS> {
+    fn new() -> VirtualMachine<'static, MACOS> {
         let mut rng = rand::thread_rng();
         let number: u32 = rng.gen();
+        let n : &'static str =  "MACOS"; //format!("MACOS_{}", number).as_str();
+
         VirtualMachine::<MACOS> {
-            name: format!("MACOS_{}", number),
+            name: n,
             state: VmState::STOPPED,
             resource_type: std::marker::PhantomData,
 
