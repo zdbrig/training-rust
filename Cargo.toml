@@ -1,5 +1,4 @@
 [workspace]
 members = [
-    "sqoinrust",
-    "sqoinlib",
+    "lesson6"
 ]
