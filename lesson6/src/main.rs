@@ -7,6 +7,9 @@ use std::io::{prelude::*, stdin, Lines, Stdin, StdinLock};
 use std::io::{Result, Write};
 use std::fs::OpenOptions;
 use std::io::SeekFrom;
+use std::io::Cursor;
+use std::process::{Command,Stdio};
+
 
 fn main() {
     //println!("Please type a number");
@@ -73,6 +76,23 @@ fn main() {
     for (i,j) in buffer.iter().enumerate() {
         println!(" {}  {}", i,j);
     }  
+    println!("--------------cursor--------------");
+ let  buff =Cursor::new(vec![1,2,3,4]);
+ let vec :Vec<u32>=buff.into_inner();
+ println!(" {:?}  ", vec);
+ let mut buff1 =Cursor::new(vec![1,2,3,4]);
+ let  refvec :&Vec<u32> =buff1.get_ref();
+ let mut buff2 =Cursor::new(vec![1,2,3,4]);
+ let vecmut=buff2.get_mut();
 
+ println!(" {:?}  ", refvec);
+ //let mut child = Command::new("ls").arg("-a").arg("e").stdin(Stdio::piped());
 
+ Command::new("ls")
+ .arg("-l")
+ .arg("-a")
+ .spawn()
+ .expect("ls command failed to start");
+
+ 
 }
