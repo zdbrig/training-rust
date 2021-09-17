@@ -4,11 +4,22 @@ var net = require('net');
 var client = new net.Socket();
 client.connect(7878, '127.0.0.1', function() {
 
-    let i = BigInt("422151" , 10);
-    let j = BigInt("429486429654" , 10);
+    let x =  Math.ceil( Math.random() * 10 );
+    let tab = [];
+    tab.push(Buffer.from([x]));
+    console.log("writing n characters" + x);
+    for (let i = 0; i <  x ; i++ ) {
+        let num1 = Math.ceil( Math.random() * 1000000 );
+        let num2 = Math.ceil( Math.random() * 1000000) ;
+        let i = BigInt( num1 , 10);
+        let j = BigInt(num2, 10);
+        tab.push(conv64(i));
+        tab.push(conv64(j));
+        console.log(num1 + ',' + num2);
+    }
     
-    let  f = Buffer.concat(
-        [conv64(i) , conv64(j)]);
+    
+    let  f = Buffer.concat(tab);
 	client.write(f);
 });
 
