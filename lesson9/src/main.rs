@@ -15,17 +15,23 @@ fn main() {
 fn handle_connection(mut stream: TcpStream) {
     let mut buffer = [0; 8192];
 
-    let number: usize = stream.read(&mut buffer).unwrap();
-    let mut s:[u8;8] = [0; 8];
-    s.copy_from_slice(&buffer[0..8]);
+     stream.read(&mut buffer).unwrap();
+    let length = (buffer[0] as usize) * 16;
+    println!(" reading {} numbers" , length);
+    let mut i = 0 as usize;
+    while i < length {
+        let mut s:[u8;8] = [0; 8];
+    s.copy_from_slice(&buffer[(i+1)..(i+9)]);
     let num = u64::from_be_bytes(s);
-    s.copy_from_slice(&buffer[8..16]);
+    s.copy_from_slice(&buffer[(i+9)..(i+17)]);
     let num2 = u64::from_be_bytes(s);
-    println!("{} bytes value: {} {}", 
-            number , 
+    println!(" value: {} , {}",    
            num,
            num2
         );
+        i = i+16;
+    }
+    
 
     let response = "🍎 Narjassi \r\n\r\n";
 
