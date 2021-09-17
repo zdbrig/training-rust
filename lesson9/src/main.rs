@@ -1,6 +1,7 @@
 use std::io::prelude::*;
 use std::net::TcpListener;
 use std::net::TcpStream;
+use rand::Rng;
 
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
@@ -32,9 +33,32 @@ fn handle_connection(mut stream: TcpStream) {
         i = i+16;
     }
     
+    let mut buffer = [0; 8192];
 
-    let response = "🍎 Narjassi \r\n\r\n";
+    
 
-    stream.write(response.as_bytes()).unwrap();
+    let mut rng = rand::thread_rng();
+    let number: u8 = rng.gen::<u8>() % 10 + 1;
+    buffer[0] = number;
+    println!("writing {}",number);
+
+    let mut i = 0usize;
+
+    while i < (number as usize *16 + 1) {
+        let num1 : u64 = rng.gen();
+        let num2 : u64 = rng.gen();
+        let bytes1 = num1.to_be_bytes();
+        let bytes2 = num2.to_be_bytes();
+        buffer[(i+1)..(i+9)].clone_from_slice(&bytes1);
+        buffer[(i+9)..(i+17)].clone_from_slice(&bytes2);
+        i = i+16;
+
+        println!(" value: {} , {}",    
+        num1,
+        num2
+     );
+    }
+   
+    stream.write(&buffer[0..((number as usize) *64+1)]).unwrap();
     stream.flush().unwrap();
 }

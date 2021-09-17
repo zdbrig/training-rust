@@ -24,7 +24,17 @@ client.connect(7878, '127.0.0.1', function() {
 });
 
 client.on('data', function(data) {
-	console.log('Received: ' + data);
+    let b = Buffer.from(data);
+	console.log('Received: ' + b[0]);
+
+    let  n = b[0];
+
+    for (let i = 0; i < (n * 16 + 1 ); i = i + 16) {
+
+        let num1 = b.readBigUInt64BE(i+1);
+        let num2 = b.readBigUInt64BE(i+9);
+        console.log(num1 + ',' + num2);
+    }
 	client.destroy(); // kill client after server's response
 });
 
@@ -40,7 +50,7 @@ const conv = num => Buffer.from([
     num & 255,
   ]);
 
-  
+
   const conv64 = num => {
     const buf = Buffer.allocUnsafe(8);
 
